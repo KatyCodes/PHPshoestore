@@ -175,32 +175,31 @@
             $this->assertEquals([$test_brand, $test_brand2], $result);
         }
 
-        // function test_getAllCourses()
-        // {
-        //     //Arrange
-        //     // create more than one course to make sure getAll returns them all.
-        //     $course_name = "History";
-        //     $course_number = "HIS101";
-        //     $test_course = new Course($course_name, $course_number);
-        //     $test_course->save();
-        //
-        //     $course_name1 = "Math";
-        //     $course_number1 = "MT101";
-        //     $test_course1 = new Course($course_name, $course_number);
-        //     $test_course1->save();
-        //
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $test_student->save();
-        //     $test_student->addCourses($test_course);
-        //
-        //
-        //     //Act
-        //     $result = $test_student->getCourses();
-        //     //Assert
-        //     $this->assertEquals([$test_course], $result);
-        // }
+        function test_getBrands()
+        {
+          //Arrange
+          $id = null;
+          $name = "SW 5th";
+          $test_store = new Store($name, $id);
+          $test_store->save();
+
+          $brand = "Nike";
+          $test_brand = new Brand($brand, $id);
+          $test_brand->save();
+
+          $brand2 = "Nike";
+          $test_brand2 = new Brand($brand2, $id);
+          $test_brand2->save();
+
+          $test_store->addBrand($test_brand);
+
+
+          //Act
+          $result = $test_store->getBrands();
+
+          //Assert
+          $this->assertEquals([$test_brand], $result);
+        }
 
     }
 ?>

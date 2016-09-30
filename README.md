@@ -35,6 +35,13 @@ A site that shows a chain of shoe stores and the brands that are sold at those s
   * Input: "SW 5th and Washington" now sells Nike
   * Output: You can buy Nike at the SW 5th and Washington location
 
+## SQL Commands
+
+* CREATE DATABASE shoes;
+* use shoes;
+* CREATE TABLE brands (brand_name VARCHAR(255), id serial PRIMARY KEY);
+* CREATE TABLE stores (store_name VARCHAR(255), id serial PRIMARY KEY);
+* CREATE TABLE stores_brands (brand_id INT, store_id INT, id serial PRIMARY KEY);
 
 ## Known Bugs
 
