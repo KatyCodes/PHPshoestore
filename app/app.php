@@ -29,12 +29,13 @@
         return $app['twig']->render('store.html.twig', array('brands' =>Brand::getAll(), 'store' => $store));
     });
 
-    $app->post('/addBrand', function() use ($app) {
+    $app->post('/store{id}/addBrand', function($id) use ($app) {
         $brand_name = $_POST['brand_name'];
         $brand = new Brand($brand_name);
         $brand->save();
+        $store = Store::find($id);
         $store->addBrand($brand);
-        return $app->redirect('/store{id}');
+        return $app['twig']->render('store.html.twig', array('brands' =>Brand::getAll(), 'store' => $store));
     });
     //
     // $app->patch('/edit_student/{id}', function($id) use ($app) {

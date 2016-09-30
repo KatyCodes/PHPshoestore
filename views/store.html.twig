@@ -14,7 +14,7 @@
             <h1>Welcome to <em>Sole Purpose</em></h1>
         </div>
         <div class="container">
-          {{ store.getName }}
+          <h1>{{ store.getName }}</h1>
           {% if brands is not empty %}
           {% for brand in brands  %}
           <li><a href="/#">{{ brand.getBrandName }}</a></li>
@@ -24,10 +24,10 @@
               There are no brands! Add a brand to this store:
             </p>
           {% endif %}
-          <form class="" action="/addBrand" method="post">
+          <form class="" action="/store{{store.getId}}/addBrand" method="post">
             <label for="brand_name">Enter a new Brand:</label>
             <input type="text" name="brand_name">
-            <button type="button" name="button">Go</button>
+            <button type="submit" name="button">Go</button>
           </form>
         </div>
     </body>
