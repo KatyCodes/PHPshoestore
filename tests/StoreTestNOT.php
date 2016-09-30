@@ -10,6 +10,7 @@
     $username = 'root';
     $password = 'root';
     $DB = new PDO($server, $username, $password);
+
     class StoreTest extends PHPUnit_Framework_TestCase
     {
         protected function tearDown()
@@ -92,6 +93,79 @@
             $this->assertEquals([$test_store, $test_store2], $result);
         }
 
+        function testUpdate()
+        {
+            //Arrange
+            $id = null;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            $test_store->save();
+
+            $new_name = "SW Washington";
+            //Act
+            $test_store->update($new_name);
+            //Assert
+            $this->assertEquals("SW Washington", $test_store->getName());
+        }
+
+        function testDelete()
+        {
+            //Arrange
+            $id = null;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            $test_store->save();
+
+            $name2 = "SW 5th";
+            $test_store2 = new Store($name2, $id);
+            $test_store2->save();
+
+            //Act
+            $test_store->delete();
+            $result = Store::getAll();
+            //Assert
+            $this->assertEquals([$test_store2], $result);
+        }
+
+        function testFind()
+        {
+            //Arrange
+            $id = null;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            $test_store->save();
+
+            $name2 = "SW 5th";
+            $test_store2 = new Store($name2, $id);
+            $test_store2->save();
+
+
+            //Act
+            $result = Store::find($test_store->getId());
+            //Assert
+            $this->assertEquals($test_store, $result);
+        }
+
+        // function test_addBrand()
+        // {
+        //     //Arrange
+        //
+        //     $id = null;
+        //     $name = "SW 5th";
+        //     $test_store = new Store($name, $id);
+        //     $test_store->save();
+        //
+        //     $brand = "SW Washington";
+        //     $test_brand = new Brand($brand, $id);
+        //     $test_bran->save();
+        //
+        //     //Act
+        //     $result = Store::getAll();
+        //
+        //     //Assert
+        //     $this->assertEquals([$test_store, $test_store2], $result);
+        // }
+
         // function test_getAllCourses()
         // {
         //     //Arrange
@@ -117,57 +191,6 @@
         //     $result = $test_student->getCourses();
         //     //Assert
         //     $this->assertEquals([$test_course], $result);
-        // }
-        //
-        // function testUpdate()
-        // {
-        //     //Arrange
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $test_student->save();
-        //     $new_name = "helloapro";
-        //     //Act
-        //     $test_student->update($new_name);
-        //     //Assert
-        //     $this->assertEquals("helloapro", $test_student->getName());
-        // }
-        //
-        // function testDelete()
-        // {
-        //     //Arrange
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $test_student->save();
-        //
-        //     $name2 = "helloapro";
-        //     $enrollment_date2 = "2016-04-11";
-        //     $test_student2 = new Student($name2, $enrollment_date2);
-        //     $test_student2->save();
-        //     //Act
-        //     $test_student->delete();
-        //     $result = Student::getAll();
-        //     //Assert
-        //     $this->assertEquals([$test_student2], $result);
-        // }
-        //
-        // function testFind()
-        // {
-        //     //Arrange
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $test_student->save();
-        //
-        //     $name2 = "helloapro";
-        //     $enrollment_date2 = "2016-04-11";
-        //     $test_student2 = new Student($name2, $enrollment_date2);
-        //     $test_student2->save();
-        //     //Act
-        //     $result = Student::find($test_student->getId());
-        //     //Assert
-        //     $this->assertEquals($test_student, $result);
         // }
 
     }

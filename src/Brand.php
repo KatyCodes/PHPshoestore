@@ -3,12 +3,10 @@
     {
         private $id;
         private $brand_name;
-        private $store_id;
 
-        function __construct($brand_name, $store_id, $id = null)
+        function __construct($brand_name, $id = null)
         {
             $this->brand_name = $brand_name;
-            $this->store_id = $store_id;
             $this->id = $id;
         }
 //getters & setters
@@ -22,16 +20,11 @@
             return $this->brand_name;
         }
 
-        function getStoreId()
-        {
-            return $this->store_id;
-        }
-
         //methods
         function save()
-        {
-            $GLOBALS['DB']->exec("INSERT INTO brands (brand_name, store_id) VALUES ('{$this->getBrandName()}', '{$this->getStoreId()}');");
-            $this->id = $GLOBALS['DB']->lastInsertId();
+       {
+        //     $GLOBALS['DB']->exec("INSERT INTO brands (brand_name, store_id) VALUES ('{$this->getBrandName()}', '{$this->getStoreId()}');");
+        //     $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         function addStore($store)

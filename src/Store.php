@@ -30,12 +30,12 @@
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
-        function addCourses($course)
+        function addBrand($brand)
         {
             // $GLOBALS['DB']->exec("INSERT INTO students_courses (course_id, student_id) VALUES ({$course->getId()}, {$this->getId()});");
         }
 
-        function getCourses()
+        function getBrands()
         {
             // $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM students
             //     JOIN students_courses ON (students_courses.student_id = students.id)
@@ -56,27 +56,27 @@
 
         function update($new_name)
         {
-            // $GLOBALS['DB']->exec("UPDATE students SET name = '{$new_name}' WHERE id = {$this->getId()};");
-            // $this->setName($new_name);
+            $GLOBALS['DB']->exec("UPDATE stores SET store_name = '{$new_name}' WHERE id = {$this->getId()};");
+            $this->setName($new_name);
         }
 
         function delete()
         {
-            // $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM stores WHERE id = {$this->getId()};");
         }
 
 //static methods
         static function find($search_id)
         {
-          //   $found_student = null;
-          //   $students = Student::getAll();
-          //   foreach($students as $student) {
-          //       $student_id = $student->getId();
-          //       if ($student_id == $search_id) {
-          //           $found_student = $student;
-          //       }
-          //   }
-          //  return $found_student;
+            $found_store = null;
+            $stores = Store::getAll();
+            foreach($stores as $store) {
+                $id = $store->getId();
+                if ($id == $search_id) {
+                    $found_store = $store;
+                }
+            }
+           return $found_store;
         }
 
         static function getAll()
