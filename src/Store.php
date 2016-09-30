@@ -26,8 +26,8 @@
 //methods
         function save()
         {
-            // $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date) VALUES ('{$this->getName()}', '{$this->getEnrollmentDate()}');");
-            // $this->id = $GLOBALS['DB']->lastInsertId();
+            $GLOBALS['DB']->exec("INSERT INTO stores (store_name) VALUES ('{$this->getName()}');");
+            $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         function addCourses($course)
@@ -81,21 +81,20 @@
 
         static function getAll()
         {
-            // $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");
-            // $students = array();
-            // foreach($returned_students as $student) {
-            //     $name = $student['name'];
-            //     $enrollment_date = $student['enrollment_date'];
-            //     $id = $student['id'];
-            //     $new_student = new Student($name, $enrollment_date, $id);
-            //     array_push($students, $new_student);
-            // }
-            // return $students;
+            $returned_stores = $GLOBALS['DB']->query("SELECT * FROM stores;");
+            $stores = array();
+            foreach($returned_stores as $store) {
+                $name = $store['store_name'];
+                $id = $store['id'];
+                $new_store = new Store($name, $id);
+                array_push($stores, $new_store);
+            }
+            return $stores;
         }
 
         static function deleteAll()
         {
-          // $GLOBALS['DB']->exec("DELETE FROM students;");
+          $GLOBALS['DB']->exec("DELETE FROM stores;");
         }
     }
 ?>

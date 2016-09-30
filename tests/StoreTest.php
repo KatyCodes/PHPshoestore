@@ -14,7 +14,7 @@
     {
         protected function tearDown()
         {
-            // Store::deleteAll();
+            Store::deleteAll();
         }
 // Test your getters and setters.
         function test_getStoreName()
@@ -46,79 +46,52 @@
             $this->assertEquals($new_name, $result);
         }
 
-        // function test_getEnrollmentDate()
-        // {
-        //     //Arrange
-        //     // no need to pass in id because it is null by default.
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     //Act
-        //     $result = $test_student->getEnrollmentDate();
-        //     //Assert
-        //     // id is null here, but that is not what we are testing. We are only interested in enrollment date.
-        //     $this->assertEquals($enrollment_date, $result);
-        // }
-        //
-        // function test_setEnrollmentDate()
-        // {
-        //     //Arrange
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $new_enrollment_date = "2016-09-22";
-        //     //Act
-        //     $test_student->setEnrollmentDate($new_enrollment_date);
-        //     $result = $test_student->getEnrollmentDate();
-        //     //Assert
-        //     $this->assertEquals($new_enrollment_date, $result);
-        // }
-        //
-        // function test_getId()
-        // {
-        //     //Arrange
-        //     $id = 1;
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date, $id);
-        //     //Act
-        //     $result = $test_student->getId();
-        //     //Assert
-        //     $this->assertEquals($id, $result); //make sure id returned is the one we put in, not null.
-        // }
-        //
-        // function test_save()
-        // {
-        //     //Arrange
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $test_student->save();
-        //     //Act
-        //     $result = Student::getAll();
-        //     //Assert
-        //     $this->assertEquals($test_student, $result[0]);
-        // }
-        //
-        // function test_getAll()
-        // {
-        //     //Arrange
-        //     // create more than one student to make sure getAll returns them all.
-        //     $name = "KatyCodes";
-        //     $enrollment_date = "2016-09-06";
-        //     $test_student = new Student($name, $enrollment_date);
-        //     $test_student->save();
-        //
-        //     $name2 = "helloapro";
-        //     $enrollment_date2 = "2016-04-11";
-        //     $test_student2 = new Student($name2, $enrollment_date2);
-        //     $test_student2->save();
-        //     //Act
-        //     $result = Student::getAll();
-        //     //Assert
-        //     $this->assertEquals([$test_student, $test_student2], $result);
-        // }
-        //
+        function test_getId()
+        {
+            //Arrange
+            $id = 1;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            //Act
+            $result = $test_store->getId();
+            //Assert
+            $this->assertEquals(1, $result); //make sure id returned is the one we put in, not null.
+        }
+
+        function test_save()
+        {
+            //Arrange
+            $id = null;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            $test_store->save();
+            //Act
+            $result = Store::getAll();
+
+            //Assert
+            $this->assertEquals($test_store, $result[0]);
+        }
+
+        function test_getAll()
+        {
+            //Arrange
+            // create more than one student to make sure getAll returns them all.
+            $id = null;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            $test_store->save();
+
+            $name2 = "SW Washington";
+            $test_store2 = new Store($name2, $id);
+            $test_store2->save();
+
+            //Act
+            $result = Store::getAll();
+
+            //Assert
+            $this->assertEquals([$test_store, $test_store2], $result);
+        }
+
         // function test_getAllCourses()
         // {
         //     //Arrange
