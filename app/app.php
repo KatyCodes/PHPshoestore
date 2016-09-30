@@ -24,14 +24,16 @@
         return $app['twig']->render('home.html.twig', array('stores' => Store::getAll()));
     });
 
-    $app->get('/store{id}', function() use ($app) {
-        return $app['twig']->render('store.html.twig', array('brands' => Brand::getAll()));
+    $app->get('/store{id}', function($id) use ($app) {
+        $store = Store::find($id);
+        return $app['twig']->render('store.html.twig', array('brands' =>Brand::getAll(), 'store' => $store));
     });
 
     $app->post('/addBrand', function() use ($app) {
         $brand_name = $_POST['brand_name'];
         $brand = new Brand($brand_name);
         $brand->save();
+        $store->addBrand($brand);
         return $app->redirect('/store{id}');
     });
     //
