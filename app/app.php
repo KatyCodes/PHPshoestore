@@ -21,53 +21,37 @@
     $app->register(new Silex\Provider\TwigServiceProvider(), array('twig.path' => __DIR__.'/../views'));
 
     $app->get('/', function() use ($app) {
-        return $app['twig']->render('home.html.twig', array('stores' => Store::getAll()));
+        return $app['twig']->render('home.html.twig', array('stores' => Store::getAll(),  'brands' => Brand::getAll()));
     });
 
     $app->get('/store{id}', function($id) use ($app) {
         $store = Store::find($id);
-        return $app['twig']->render('store.html.twig', array('brands' =>Brand::getAll(), 'store' => $store));
+        return $app['twig']->render("store.html.twig", array('store' => $store, 'brands' => $store->getBrands(), 'all_brands' => Brand::getAll()));
     });
 
+
     $app->post('/store{id}/addBrand', function($id) use ($app) {
-        $brand_name = $_POST['brand_name'];
-        $brand = new Brand($brand_name);
+        $brand = new Brand($_POST['brand_name']);
         $brand->save();
         $store = Store::find($id);
         $store->addBrand($brand);
-        return $app['twig']->render('store.html.twig', array('brands' =>Brand::getAll(), 'store' => $store));
+        $brands = $store->getBrands();
+        return $app['twig']->render('store.html.twig', array('brands' => $brands, 'store' => $store));
     });
-    //
-    // $app->patch('/edit_student/{id}', function($id) use ($app) {
-    //     $student = Student::find($id);
-    //     $new_name = $_POST['new_name'];
-    //     $student->update($new_name);
-    //     return $app->redirect('/student-list');
-    // });
-    //
-    // $app->delete('/delete_student/{id}', function($id) use ($app) {
-    //     $student = Student::find($id);
-    //     $student->delete();
-    //     return $app->redirect('/student-list');
-    // });
-    //
-    // $app->post('/delete_all_students', function() use ($app) {
-    //     Student::deleteAll();
-    //     return $app->redirect('/');
-    // });
-    //
-    // $app->get('/student_page/{id}', function($id) use ($app) {
-    //     $student = Student::find($id);
-    //     return $app['twig']->render('student-page.html.twig', array('student' => $student, 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
-    // });
-    //
-    // $app->post('/enroll_in_course/{id}', function($id) use ($app) {
-    //     $course = Course::find($_POST['course_id']);
-    //     $student = Student::find($id);
-    //     $student->addCourses($course);
-    //     return $app['twig']->render('student-page.html.twig', array('student' => $student, 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
-    // });
 
+    $app->post('/addStore', function() use ($app) {
+        $store_name = $_POST['store_name'];
+        $new_store = new Store($store_name);
+        $new_store->save();
+        return $app['twig']->render('home.html.twig', array('brands' =>Brand::getAll(), 'store' => $new_store, 'stores' => Store::getAll()));
+    });
+
+    $app->post('/addBrand', function() use ($app){
+      $brand_name = $_POST['brand'];
+      $new_brand= new Brand($brand_name);
+      $new_brand->save();
+      return $app['twig']->render('home.html.twig', array('stores' => Store::getAll(), 'brands' => Brand::getAll()));
+    });
 
     return $app;
 ?>

@@ -25,6 +25,27 @@
                   There are no stores! Get to work!
                 </p>
               {% endif %}
+              <br>
+              <form action="/addStore" method="post">
+                <label for="store_name">Enter a new Store:</label>
+                <input type="text" name="store_name">
+                <button type="submit" name="button">Go</button>
+              </form>
+              <br>
+              {% if brands is not empty %}
+              {% for brand in brands  %}
+              <li><a href="#">{{ brand.getBrandName }}</a></li>
+                {% endfor %}
+                {% else %}
+                <p>
+                  There are no brands! Get to work!
+                </p>
+              {% endif %}
+              <form action="/addBrand" method="post">
+                <label for="brand">Enter a new Brand:</label>
+                <input type="text" name="brand">
+                <button type="submit" name="button">Go</button>
+              </form>
             </div>
         </body>
     </html>
