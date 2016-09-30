@@ -22,68 +22,68 @@
 
         //methods
         function save()
-       {
-        //     $GLOBALS['DB']->exec("INSERT INTO brands (brand_name, store_id) VALUES ('{$this->getBrandName()}', '{$this->getStoreId()}');");
-        //     $this->id = $GLOBALS['DB']->lastInsertId();
+        {
+            $GLOBALS['DB']->exec("INSERT INTO brands (brand_name) VALUES ('{$this->getBrandName()}');");
+            $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         function addStore($store)
         {
-            // $GLOBALS['DB']->exec("INSERT INTO brands_stores (course_id, student_id) VALUES ({$this->getId()}, {$student->getId()});");
+            $GLOBALS['DB']->exec("INSERT INTO stores_brands (brand_id, store_id) VALUES ({$this->getId()}, {$store->getId()});");
         }
 
-        function getStudents()
+        function getStores()
         {
-            // $returned_students = $GLOBALS['DB']->query("SELECT students.* FROM courses
-            //     JOIN students_courses ON (students_courses.course_id = courses.id)
-            //     JOIN students ON (students.id = students_courses.student_id)
-            //     WHERE courses.id = {$this->getId()};");
-            //
-            // $students = array();
-            //
-            // foreach($returned_students as $student) {
-            //     $name = $student['name'];
-            //     $enrollment_date = $student['enrollment_date'];
-            //     $id = $student['id'];
-            //     $new_student = new Student($name, $enrollment_date, $id);
-            //     array_push($students, $new_student);
-            // }
-            // return $students;
+          $returned_stores = $GLOBALS['DB']->query("SELECT stores.* FROM brands
+            JOIN stores_brands ON (stores_brands.brand_id = brands.id)
+            JOIN stores ON (stores.id = stores_brands.store_id)
+            WHERE brands.id = {$this->getId()};");
+
+
+            $stores = array();
+
+
+            foreach($returned_stores as $store) {
+                $name = $store['store_name'];
+                $id = $store['id'];
+                $new_store = new Store($name, $id);
+                array_push($stores, $new_store);
+            }
+            return $stores;
         }
 
 
         static function find($search_id)
         {
-          //   $found_course = null;
-          //   $courses = Course::getAll();
-          //   foreach($courses as $course) {
-          //       $course_id = $course->getId();
-          //       if ($course_id == $search_id) {
-          //           $found_course = $course;
-          //       }
-          //   }
-          //  return $found_course;
+            $found_brand = null;
+            $brands = Brand::getAll();
+            foreach($brands as $brand) {
+                $id = $brand->getId();
+                if ($id == $search_id) {
+                    $found_brand = $brand;
+                }
+            }
+           return $found_brand;
         }
 
 
 //static methods
         static function getAll()
         {
-            $returned_courses = $GLOBALS['DB']->query("SELECT * FROM courses;");
-            $courses = array();
-            foreach($returned_courses as $course) {
-                $course_name = $course['course_name'];
-                $course_number = $course['course_number'];
-                $id = $course['id'];
-                $new_course = new Course($course_name, $course_number, $id);
-                array_push($courses, $new_course);
+            $returned_brands = $GLOBALS['DB']->query("SELECT * FROM brands;");
+            $brands = array();
+            foreach($returned_brands as $brand) {
+                $brand_name = $brand['brand_name'];
+                $id = $brand['id'];
+                $new_brand = new Brand($brand_name, $id);
+                array_push($brands, $new_brand);
             }
-            return $courses;
+            return $brands;
         }
 
         static function deleteAll()
         {
-          $GLOBALS['DB']->exec("DELETE FROM courses;");
+          $GLOBALS['DB']->exec("DELETE FROM brands;");
         }
     }
 ?>
