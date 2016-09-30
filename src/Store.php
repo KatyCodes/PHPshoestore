@@ -32,26 +32,25 @@
 
         function addBrand($brand)
         {
-            // $GLOBALS['DB']->exec("INSERT INTO students_courses (course_id, student_id) VALUES ({$course->getId()}, {$this->getId()});");
+            $GLOBALS['DB']->exec("INSERT INTO stores_brands (brand_id, store_id) VALUES ({$brand->getId()}, {$this->getId()});");
         }
 
         function getBrands()
         {
-            // $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM students
-            //     JOIN students_courses ON (students_courses.student_id = students.id)
-            //     JOIN courses ON (courses.id = students_courses.course_id)
-            //     WHERE students.id = {$this->getId()};");
-            //
-            // $courses = array();
-            //
-            // foreach($returned_courses as $course) {
-            //     $course_name = $course['course_name'];
-            //     $course_number = $course['course_number'];
-            //     $id = $course['id'];
-            //     $new_course = new Course($course_name, $course_number, $id);
-            //     array_push($courses, $new_course);
-            // }
-            // return $courses;
+          $returned_brands = $GLOBALS['DB']->query("SELECT brands.* FROM stores
+            JOIN stores_brands ON (stores_brands.store_id = stores.id)
+            JOIN brands ON (brands.id = stores_brands.brand_id)
+            WHERE stores.id = {$this->getId()};");
+
+            $brands = array();
+            foreach($returned_brands as $brand) {
+                $name = $brand['brand_name'];
+                $id = $brand['id'];
+                $new_brand = new Brand($name, $id);
+                array_push($brands, $new_brand);
+            }
+
+            return $brands;
         }
 
         function update($new_name)

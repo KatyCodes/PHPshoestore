@@ -5,6 +5,7 @@
     */
 
     require_once "src/Store.php";
+    require_once "src/Brand.php";
 
     $server = 'mysql:host=localhost;dbname=shoes_test';
     $username = 'root';
@@ -16,6 +17,7 @@
         protected function tearDown()
         {
             Store::deleteAll();
+            Brand::deleteAll();
         }
 // Test your getters and setters.
         function test_getStoreName()
@@ -146,25 +148,32 @@
             $this->assertEquals($test_store, $result);
         }
 
-        // function test_addBrand()
-        // {
-        //     //Arrange
-        //
-        //     $id = null;
-        //     $name = "SW 5th";
-        //     $test_store = new Store($name, $id);
-        //     $test_store->save();
-        //
-        //     $brand = "SW Washington";
-        //     $test_brand = new Brand($brand, $id);
-        //     $test_bran->save();
-        //
-        //     //Act
-        //     $result = Store::getAll();
-        //
-        //     //Assert
-        //     $this->assertEquals([$test_store, $test_store2], $result);
-        // }
+        function test_addBrand()
+        {
+            //Arrange
+            $id = null;
+            $name = "SW 5th";
+            $test_store = new Store($name, $id);
+            $test_store->save();
+
+            $brand = "Nike";
+            $test_brand = new Brand($brand, $id);
+            $test_brand->save();
+
+            $brand2 = "Nike";
+            $test_brand2 = new Brand($brand2, $id);
+            $test_brand2->save();
+
+            $test_store->addBrand($test_brand);
+
+            $test_store->addBrand($test_brand2);
+
+            //Act
+            $result = $test_store->getBrands();
+
+            //Assert
+            $this->assertEquals([$test_brand, $test_brand2], $result);
+        }
 
         // function test_getAllCourses()
         // {

@@ -114,15 +114,24 @@
             $test_store = new Store($name, $id);
             $test_store->save();
 
+
+            $name2 = "SW 5th";
+            $test_store2 = new Store($name2, $id);
+            $test_store2->save();
+
             $brand = "Nike";
             $test_brand = new Brand($brand, $id);
             $test_brand->save();
 
+            $test_brand->addStore($test_store);
+            $test_brand->addStore($test_store2);
+
             //Act
-            $result = Store::getAll();
+            $result = $test_brand->getStores();
+
 
             //Assert
-            $this->assertEquals([$test_store], $result);
+            $this->assertEquals([$test_store, $test_store2], $result);
         }
 
         function test_getStores()

@@ -39,10 +39,7 @@
             JOIN stores ON (stores.id = stores_brands.store_id)
             WHERE brands.id = {$this->getId()};");
 
-
             $stores = array();
-
-
             foreach($returned_stores as $store) {
                 $name = $store['store_name'];
                 $id = $store['id'];
