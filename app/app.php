@@ -80,6 +80,15 @@
           return $app['twig']->render('home.html.twig', array('brands' => $brands, 'store' => $store, 'stores' => Store::getAll()));
         });
 
+      $app->delete("/storeDeleteAll", function() use ($app) {
+          $store = Store::deleteAll();
+          return $app['twig']->render('home.html.twig', array('stores' => Store::getAll(),  'brands' => Brand::getAll()));
+        });
+
+      $app->delete("/brandDeleteAll", function() use ($app) {
+          $brand = Brand::deleteAll();
+          return $app['twig']->render('home.html.twig', array('stores' => Store::getAll(),  'brands' => Brand::getAll()));
+        });
 
     return $app;
 ?>
