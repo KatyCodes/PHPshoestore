@@ -28,7 +28,7 @@
             Brands this store has:
           </p>
           {% for brand in brands  %}
-          <li><a href="/#">{{ brand.getBrandName }}</a></li>
+          <li>{{ brand.getBrandName }}</li>
             {% endfor %}
             {% else %}
             <p>
