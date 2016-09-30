@@ -47,11 +47,32 @@
     });
 
     $app->post('/addBrand', function() use ($app){
-      $brand_name = $_POST['brand'];
-      $new_brand= new Brand($brand_name);
-      $new_brand->save();
-      return $app['twig']->render('home.html.twig', array('stores' => Store::getAll(), 'brands' => Brand::getAll()));
+        $brand_name = $_POST['brand'];
+        $new_brand= new Brand($brand_name);
+        $new_brand->save();
+        return $app['twig']->render('home.html.twig', array('stores' => Store::getAll(), 'brands' => Brand::getAll()));
     });
+
+    $app->get('/brand{id}', function($id) use ($app) {
+        $brand = Brand::find($id);
+        return $app['twig']->render("brand.html.twig", array('brand' => $brand, 'all_stores' => $brand->getStores(), 'stores' => Store::getAll()));
+    });
+
+    $app->post('/brand{id}/addBrand', function($id) use ($app){
+        $store = Store::find($_POST['store']);
+        $brand = Brand::find($id);
+        $brand->addStore($store);
+        return $app['twig']->render("brand.html.twig", array('brand' => $brand, 'all_stores' => $brand->getStores(), 'stores' => Store::getAll()));
+    });
+
+    $app->patch("/stores/{id}/edit", function($id) use ($app) {
+        $name = $_POST['new_name'];
+        $store = Store::find($id);
+        $store->update($name);
+        $brands = $store->getBrands();
+        return $app['twig']->render('store.html.twig', array('brands' => $brands, 'store' => $store));
+      });
+
 
     return $app;
 ?>
