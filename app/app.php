@@ -1,4 +1,5 @@
 <?php
+
     date_default_timezone_set('America/Los_Angeles');
     require_once __DIR__.'/../vendor/autoload.php';
     require_once __DIR__.'/../src/Store.php';
@@ -11,10 +12,11 @@
 
     $app['debug'] = true;
 
-    $server = 'mysql:host=localhost;dbname=shoes';
-    $username = 'root';
-    $password = 'root';
-    $DB = new PDO($server, $username, $password);
+      $server = 'mysql:host=localhost:8889;dbname=shoes';
+      $username = 'root';
+      $password = 'root';
+      $DB = new PDO($server, $username, $password);
+
 
     use Symfony\Component\HttpFoundation\Request; Request::enableHttpMethodParameterOverride();
 
@@ -31,12 +33,12 @@
 
 
     $app->post('/store{id}/addBrand', function($id) use ($app) {
-        $brand = new Brand($_POST['brand_name']);
+        $brand = new Brand($_POST['brand']);
         $brand->save();
         $store = Store::find($id);
         $store->addBrand($brand);
         $brands = $store->getBrands();
-        return $app['twig']->render('store.html.twig', array('brands' => $brands, 'store' => $store));
+        return $app['twig']->render('store.html.twig', array('brand' => $brands, 'store' => $store, 'all_brands' => Brand::getAll()));
     });
 
     $app->post('/addStore', function() use ($app) {
@@ -62,7 +64,7 @@
         $store = Store::find($_POST['store']);
         $brand = Brand::find($id);
         $brand->addStore($store);
-        return $app['twig']->render("brand.html.twig", array('brand' => $brand, 'all_stores' => $brand->getStores(), 'stores' => Store::getAll()));
+        return $app['twig']->render("brand.html.twig", array('brand' => $brand, 'all_stores' => $brand->getStores(), 'stores' => Store::getAll(), 'brands' => Brands::getAll()));
     });
 
     $app->patch("/store/{id}/edit", function($id) use ($app) {
